@@ -1,9 +1,8 @@
 pipeline {
     agent any
     stages {
-        stage('Run tests') {
+        stage('Build') {
             steps {
-                sh 'pwd'
                 sh '''
                 imageName=node-app-docker-${BUILD_NUMBER}
                 containerName=CN-node-app-docker
@@ -12,6 +11,16 @@ pipeline {
                 docker stop $containerName || true && docker rm -f $containerName || true
                 docker run -p 3000:3000 -d --name $containerName $imageName
                 '''
+            }
+        }
+        stage('Test') {
+            steps {
+                sh echo "Dev Testing ..."
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh echo "Deployment ..."
             }
         }
     }
