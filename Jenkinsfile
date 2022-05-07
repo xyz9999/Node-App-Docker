@@ -1,11 +1,12 @@
 pipeline {
     agent {
-        docker { image 'node-app-docker' }
+        dockerfile true
     }
+
     stages {
-        stage('Test') {
+        stage('Run tests') {
             steps {
-                sh 'node --version'
+                sh 'pwd'
             }
         }
     }
