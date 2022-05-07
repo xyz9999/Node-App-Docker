@@ -3,6 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                echo "Building ..."
                 sh '''
                 imageName=node-app-docker-${BUILD_NUMBER}
                 containerName=CN-node-app-docker
@@ -15,12 +16,12 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh echo "Dev Testing ..."
+                echo "Testing ..."
             }
         }
         stage('Deploy') {
             steps {
-                sh echo "Deployment ..."
+                echo "Deployment ..."
             }
         }
     }
