@@ -9,7 +9,7 @@ pipeline {
                 sh 'pwd'
                 sh '''
                 imageName=node-app-docker-${BUILD_NUMBER}
-                containerName=Container-$imageName
+                containerName=ContainerName-node-app-docker
                 docker system prune -af
                 docker build -t $imageName .
                 docker stop $containerName || true && docker rm -f $containerName || true
