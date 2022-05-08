@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
 	DOCKERHUB_CREDENTIALS=credentials('JenkinsToDockerHub')
-	imageName='xyz9999/node-app-docker-${BUILD_NUMBER}' 
+	imageName='xyz9999/node-app-docker-' 
     }
 
     stages {
@@ -12,31 +12,31 @@ pipeline {
                 sh '''
                 containerName=CN-node-app-docker
                 docker system prune -af
-                docker build -t $imageName .
+                docker build -t $imageName${BUILD_NUMBER} .
                 docker stop $containerName || true && docker rm -f $containerName || true
-                docker run -p 3000:3000 -d --name $containerName $imageName
+                docker run -p 3000:3000 -d --name $containerName $imageName${BUILD_NUMBER}
                '''
             }
         }
         stage('Test') {
-            steps {
-                echo "Testing ..."
-            }
+		steps {
+		echo "Testing ..."
+		}
         }
-        stage('Login') {
+        stage('Login DickerHub') {
 		steps {
 			sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 		}
 	}
-	stage('Push') {
+	stage('Push DuckerHub') {
 		steps {
-			sh 'docker push $imageName:latest'
+			sh 'docker push $imageName${BUILD_NUMBER}:latest'
 		}
 	}
         stage('Deploy') {
-            steps {
-                echo "Deployment ..."
-            }
+		steps {
+		echo "Deployment ..."
+		}
         }
     }
 }
