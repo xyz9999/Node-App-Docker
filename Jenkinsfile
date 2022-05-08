@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
 	DOCKERHUB_CREDENTIALS=credentials('JenkinsToDockerHub')
+	imageName=xyz9999/node-app-docker-${BUILD_NUMBER}
     }
 
     stages {
@@ -9,7 +10,6 @@ pipeline {
             steps {
                 echo "Building ..."
                 sh '''
-                imageName=xyz9999/node-app-docker-${BUILD_NUMBER}
                 containerName=CN-node-app-docker
                 docker system prune -af
                 docker build -t $imageName .
@@ -30,7 +30,7 @@ pipeline {
 	}
 	stage('Push') {
 		steps {
-			sh 'docker push xyz9999/node-app-docker-${BUILD_NUMBER}:latest'
+			sh 'docker push $imageName:latest'
 		}
 	}
         stage('Deploy') {
