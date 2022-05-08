@@ -12,7 +12,7 @@ pipeline {
                 imageName=node-app-docker-${BUILD_NUMBER}
                 containerName=CN-node-app-docker
                 docker system prune -af
-                docker build -t $imageName .
+                docker build -t xyz9999/$imageName .
                 docker stop $containerName || true && docker rm -f $containerName || true
                 docker run -p 3000:3000 -d --name $containerName $imageName
                '''
@@ -30,7 +30,7 @@ pipeline {
 	}
 	stage('Push') {
 		steps {
-			sh 'docker push JenkinsToDockerHub/node-app-docker-${BUILD_NUMBER}:latest'
+			sh 'docker push xyz9999/node-app-docker-${BUILD_NUMBER}:latest'
 		}
 	}
         stage('Deploy') {
