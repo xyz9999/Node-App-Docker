@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-		DOCKERHUB_CREDENTIALS=credentials('JenkinsToDockerHub')
-	}
+	DOCKERHUB_CREDENTIALS=credentials('JenkinsToDockerHub')
+    }
 
     stages {
         stage('Build') {
@@ -24,15 +24,15 @@ pipeline {
             }
         }
         stage('Login') {
-			steps {
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-			}
+		steps {
+			sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 		}
-		stage('Push') {
-			steps {
-				sh 'docker push node-app-docker-${BUILD_NUMBER}:latest'
-			}
+	}
+	stage('Push') {
+		steps {
+			sh 'docker push xyz9999/node-app-docker-${BUILD_NUMBER}:latest'
 		}
+	}
         stage('Deploy') {
             steps {
                 echo "Deployment ..."
