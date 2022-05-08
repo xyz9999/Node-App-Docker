@@ -4,7 +4,6 @@ pipeline {
 	DOCKERHUB_CREDENTIALS=credentials('JenkinsToDockerHub')
 	imageName='xyz9999/node-app-docker-' 
     }
-
     stages {
         stage('Build') {
             steps {
@@ -20,10 +19,10 @@ pipeline {
         }
         stage('Test') {
 		steps {
-		echo "Testing ..."
+			echo "Testing ..."
 		}
         }
-        stage('Login DickerHub') {
+        stage('Login DockerHub') {
 		steps {
 			sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 		}
@@ -35,7 +34,7 @@ pipeline {
 	}
         stage('Deploy') {
 		steps {
-		echo "Deployment ..."
+			echo "Deployment ..."
 		}
         }
     }
