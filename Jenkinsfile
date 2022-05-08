@@ -30,7 +30,7 @@ pipeline {
 	}
 	stage('Push') {
 		steps {
-			sh 'docker push xyz9999/node-app-docker-${BUILD_NUMBER}:latest'
+			sh 'docker push JenkinsToDockerHub/node-app-docker-${BUILD_NUMBER}:latest'
 		}
 	}
         stage('Deploy') {
