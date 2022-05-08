@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
 	DOCKERHUB_CREDENTIALS=credentials('JenkinsToDockerHub')
-	imageName='xyz9999/node-app-docker-' + ${BUILD_NUMBER}
+	imageName='xyz9999/node-app-docker-' + '${BUILD_NUMBER}'
     }
 
     stages {
