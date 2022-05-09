@@ -3,23 +3,31 @@ pipeline {
     environment {
 	DOCKERHUB_CREDENTIALS=credentials('JenkinsToDockerHub')
 	imageName='xyz9999/node-app-docker-' 
+	containerName='node-app-docker-CN'
+	port='3000'
     }
     stages {
         stage('Build') {
-            steps {
-                echo "Building ..."
-                sh '''
-                containerName=CN-node-app-docker
-                docker system prune -af
-                docker build -t $imageName${BUILD_NUMBER} .
-                docker stop $containerName || true && docker rm -f $containerName || true
-                docker run -p 3000:3000 -d --name $containerName $imageName${BUILD_NUMBER}
-               '''
-            }
+		steps {
+			echo "Building ..."
+			sh '''
+			docker system prune -af
+			docker build -t $imageName${BUILD_NUMBER} .
+			'''
+		}
         }
-        stage('Test') {
+        stage('Test DEV') {
 		steps {
 			echo "Testing ..."
+		}
+        }
+	stage('Deploy DEV') {
+		steps {
+			echo "Deploying DEV ..."
+			sh '''
+			docker stop $containerName || true && docker rm -f $containerName || true
+			docker run -p $port:$port -d --name $containerName $imageName${BUILD_NUMBER}
+			'''
 		}
         }
         stage('Login DockerHub') {
@@ -32,10 +40,5 @@ pipeline {
 			sh 'docker push $imageName${BUILD_NUMBER}:latest'
 		}
 	}
-        stage('Deploy') {
-		steps {
-			echo "Deployment ..."
-		}
-        }
     }
 }
